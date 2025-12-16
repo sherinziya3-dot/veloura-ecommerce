@@ -1,0 +1,56 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "anew",
+      "email": "anew@example.com",
+      "password": "12345",
+      "role": "user"
+    }
+  ],
+
+  "admins": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "12345",
+      "role": "admin"
+    }
+  ],
+
+"products": [
+  {
+    "id": 1,
+    "name": "Estele Rhodium Plated Elegant Pendant",
+    "price": 974,
+    "category": "Premium",
+    "image": "/images/estal-rhodium.jpg"
+  },
+  {
+    "id": 2,
+    "name": "White & Orange Pearl Necklace",
+    "price": 1499,
+    "category": "Premium",
+    "image": "/images/white-orange.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Gold Ganesh Crystal Pendant",
+    "price": 1199,
+    "category": "Spiritual",
+    "image": "/images/gold-ganesh.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Gold Solitaire Pendant Set",
+    "price": 1999,
+    "category": "Premium",
+    "image": "images/gold-solitaire.jpg"
+  }
+
+],
+
+  
+
+  "orders": []
+}
