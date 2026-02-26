@@ -1,15 +1,12 @@
-import{useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Logout(){
-const navigate =useNavigate();
-
-useEffect(()=>{ 
+export function logout() {
+  const session = JSON.parse(localStorage.getItem("Veloura_session"));
+  if (session) {
     localStorage.removeItem("Veloura_session");
-    localStorage.removeItem("Veloura_cart");
-    localStorage.removeItem("Veloura_wishlist");
-
-    navigate("/login",{replace:true});
-},[navigate]);
-return null;
+    localStorage.removeItem(`cart_${session.user.id}`);
+    localStorage.removeItem(`wishlist_${session.user.id}`);
+    alert("✅ Logged out successfully");
+    window.location.href = "/login"; // safe redirect
+  }
 }

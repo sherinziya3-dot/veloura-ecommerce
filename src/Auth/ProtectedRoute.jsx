@@ -1,14 +1,14 @@
+
+import React from "react";
 import { Navigate } from "react-router-dom";
+import { getSession } from "../utils/isAuthenticated";
 
-export default function ProtectedRoute({ children, role }) {
-  
-  const session = JSON.parse(localStorage.getItem("Veloura_session") || "null");
+export default function ProtectedRoute({ children, admin }) {
+  const session = getSession();
 
-  if (!session || !session.isLoggedIn || session.role !== role) {
-    return <Navigate to="/login" replace />;
-  }if (role && session.role !== role) {
-    return <Navigate to="/" />;
-  }
+  if (!session) return <Navigate to="/login" replace />;
+
+  if (admin && session.user.role !== "admin") return <Navigate to="/" replace />;
 
   return children;
 }

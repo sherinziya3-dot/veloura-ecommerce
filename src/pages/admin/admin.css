@@ -1,0 +1,38 @@
+.admin-layout {
+  display: flex;
+}
+
+.admin-sidebar {
+  width: 220px;
+  background: #111;
+  color: #fff;
+  padding: 20px;
+}
+
+.admin-sidebar a {
+  display: block;
+  color: white;
+  margin: 10px 0;
+}
+
+.admin-content {
+  padding: 20px;
+  flex: 1;
+}
+
+.admin-form input {
+  margin: 5px;
+  padding: 6px;
+}
+
+.admin-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}

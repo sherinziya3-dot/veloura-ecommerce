@@ -1,138 +1,114 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../utils/isAuthenticated";
 
 export default function SingleProduct() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [qty, setQty] = useState(1);
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
   const navigate = useNavigate();
+  const[loading,setLoading]=useState(true);
+  const[error,setError]=useState("");
 
-  useEffect(() => {
+useEffect(() => {
     fetch(`http://localhost:5000/products/${id}`)
-      .then(res => res.json())
-      .then(data => setProduct(data))
-      .catch(err => console.error("Error fetching product:", err));
+      .then((res) => {
+        if (!res.ok) throw new Error("Product not found");
+        return res.json();
+      })
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Could not load product");
+        setLoading(false);
+      });
   }, [id]);
 
-  if (!product) return <p style={{ textAlign: "center", marginTop: 50 }}>Loading product...</p>;
-
-  const handleCart = () => {
+  
+  const increase = () => setQty(qty + 1);
+  const decrease = () => {
+    if (qty > 1) setQty(qty - 1);
+  };
+  const handleAddToCart = () => {
     if (!isAuthenticated()) {
-      alert("Please login to add items to cart 💎");
+      alert("Please login to add to cart");
       navigate("/login");
       return;
     }
-    addToCart(product);
-    alert("💎 Item added to cart!");
+
+    addToCart({ ...product, qty });
+    alert("Added to cart");
+    navigate("/cart");
   };
 
-  const handleWishlist = () => {
-    if (!isAuthenticated()) {
-      alert("Please login to add items to wishlist ❤️");
-      navigate("/login");
-      return;
-    }
-    addToWishlist(product);
-    alert("❤️ Item added to wishlist!");
-  };
+  if (loading) return <p style={{ padding: "30px" }}>Loading...</p>;
+  if (error) return <p style={{ padding: "30px" }}>{error}</p>;
+  if (!product) return null;
 
   return (
-    <div style={styles.container}>
-      <div style={styles.imageWrapper}>
-        <img src={product.image} alt={product.name} style={styles.image} />
-      </div>
+    <div style={styles.wrapper}>
+      <img src={product.image} alt={product.name} style={styles.image} />
 
-      <div style={styles.details}>
-        <h1 style={styles.name}>{product.name}</h1>
-        <p style={styles.category}>{product.category || "General"}</p>
-        <h2 style={styles.price}>₹{product.price}</h2>
-        <p style={styles.description}>
-          {product.description || "No description available for this product."}
-        </p>
+      <div style={styles.info}>
+        <h2>{product.name}</h2>
+        <p>{product.description}</p>
+        <h3>₹{product.price}</h3>
 
-        <div style={styles.buttons}>
-          <button style={{ ...styles.button, background: "#6a4a3c" }} onClick={handleCart}>
-            Add to Cart
-          </button>
-          <button style={{ ...styles.button, background: "#d5885d" }} onClick={handleWishlist}>
-            ❤️ Add to Wishlist
-          </button>
+        <div style={styles.qtyBox}>
+          <label>Quantity:</label>
+          <input
+            type="number"
+            min="1"
+            value={qty}
+            onChange={(e) => setQty(Number(e.target.value))}
+            style={styles.qtyInput}
+          />
         </div>
+
+        <button onClick={handleAddToCart} style={styles.button}>
+          Add to Cart
+        </button>
       </div>
     </div>
   );
 }
 
-// Professional styles
 const styles = {
-  container: {
-    maxWidth: 1000,
-    margin: "50px auto",
+  wrapper: {
     display: "flex",
-    gap: 40,
-    flexWrap: "wrap",
-    padding: "0 20px",
-    fontFamily: "'Inter', sans-serif",
-  },
-  imageWrapper: {
-    flex: 1,
-    minWidth: 300,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    gap: "40px",
+    padding: "40px",
   },
   image: {
-    width: "100%",
-    maxWidth: 400,
-    borderRadius: 20,
+    width: "320px",
+    borderRadius: "16px",
     objectFit: "cover",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
   },
-  details: {
-    flex: 1,
-    minWidth: 300,
-    display: "flex",
-    flexDirection: "column",
-    gap: 15,
+  info: {
+    maxWidth: "400px",
   },
-  name: {
-    fontSize: 28,
-    fontWeight: 700,
-    color: "#6a4a3c",
-    fontFamily: "'Playfair Display', serif",
+  qtyBox: {
+    margin: "15px 0",
   },
-  category: {
-    fontSize: 14,
-    color: "#8c6f58",
-  },
-  price: {
-    fontSize: 24,
-    color: "#6a4a3c",
-    fontWeight: 600,
-  },
-  description: {
-    fontSize: 16,
-    color: "#6a4a3c",
-    lineHeight: 1.6,
-  },
-  buttons: {
-    display: "flex",
-    gap: 15,
-    marginTop: 20,
+  qtyInput: {
+    marginLeft: "10px",
+    width: "60px",
+    padding: "5px",
   },
   button: {
     padding: "12px 20px",
-    borderRadius: 12,
+    borderRadius: "10px",
     border: "none",
+    background: "#6a4a3c",
     color: "#fff",
-    fontWeight: 600,
-    fontSize: 15,
+    fontWeight: "600",
     cursor: "pointer",
-    flex: 1,
   },
 };
+ 

@@ -9,27 +9,27 @@ export default function ProductCard({ product }) {
   const { addToWishlist } = useWishlist();
   const navigate = useNavigate();
 
-  function handleCart() {
+  const handleCart = () => {
     if (!isAuthenticated()) {
       alert("Please login to add items to cart 💎");
       navigate("/login");
       return;
     }
     addToCart(product);
-  }
+  };
 
-  function handleWishlist() {
+  const handleWishlist = () => {
     if (!isAuthenticated()) {
       alert("Please login to add items to wishlist ❤️");
       navigate("/login");
       return;
     }
     addToWishlist(product);
-  }
+  };
 
-  function goToSingleProduct() {
+  const goToSingleProduct = () => {
     navigate(`/product/${product.id}`);
-  }
+  };
 
   return (
     <div style={styles.card}>
@@ -37,18 +37,26 @@ export default function ProductCard({ product }) {
         src={product.image}
         alt={product.name}
         style={styles.image}
-        onClick={goToSingleProduct} // ✅ clickable image
+        onClick={goToSingleProduct}
       />
       <h3 style={styles.name} onClick={goToSingleProduct}>
-        {product.name} {/* ✅ clickable name */}
+        {product.name}
       </h3>
       <p style={styles.price}>₹{product.price}</p>
 
       <div style={styles.buttonGroup}>
-        <button style={{ ...styles.button, background: "#6a4a3c" }} onClick={handleCart}>
+        <button
+          style={{ ...styles.button, background: "#6a4a3c" }}
+          onClick={handleCart}
+        >
           Add to Cart
         </button>
-        <button style={{ ...styles.button, background: "#d5885d" }} onClick={handleWishlist}>
+
+        
+        <button
+          style={{ ...styles.button, background: "#d5885d" }}
+          onClick={handleWishlist}
+        >
           ❤️ Wishlist
         </button>
       </div>
@@ -67,7 +75,7 @@ const styles = {
     textAlign: "center",
     margin: "15px",
     fontFamily: "'Inter', sans-serif",
-    cursor: "pointer", // ✅ shows it's clickable
+    cursor: "pointer",
   },
   image: {
     width: "100%",
@@ -100,4 +108,4 @@ const styles = {
     fontWeight: "600",
     cursor: "pointer",
   },
-};
+};  

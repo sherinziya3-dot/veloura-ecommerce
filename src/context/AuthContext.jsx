@@ -1,29 +1,21 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
-// ✅ Create AuthContext
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
 
-  // ✅ Load session from LocalStorage on page refresh
-  useEffect(() => {
-    const session = localStorage.getItem("Veloura_session");
-    if (session) setUser(JSON.parse(session));
-  }, []);
-
-  // ✅ Login function
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("Veloura_session", JSON.stringify(userData));
+  const login = (data) => {
+    localStorage.setItem("user", JSON.stringify(data));
+    setUser(data);
   };
 
-  // ✅ Logout function (clears session, cart, wishlist)
   const logout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("cart");
     setUser(null);
-    localStorage.removeItem("Veloura_session");
-    localStorage.removeItem("Veloura_cart");
-    localStorage.removeItem("Veloura_wishlist");
   };
 
   return (
@@ -33,5 +25,4 @@ export function AuthProvider({ children }) {
   );
 }
 
-// ✅ Custom hook to use AuthContext anywhere
 export const useAuth = () => useContext(AuthContext);
