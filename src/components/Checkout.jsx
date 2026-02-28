@@ -13,7 +13,7 @@ export default function Checkout() {
     if (!session) {
       navigate("/login");
     }
-  }, []);
+  }, [navigate,session]);
 
   const handleCheckout = () => {
     if (!cart.length) {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { useNavigate } from "react-router-dom";
+
 
 export default function ProductList() {
-  const navigate = useNavigate();
+  
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
 

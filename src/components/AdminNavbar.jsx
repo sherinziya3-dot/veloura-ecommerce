@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate,useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getSession, logout, setSession } from "../utils/isAuthenticated";
 import "../styles/navbar.css";
 import { RiDashboardLine } from "react-icons/ri";
@@ -13,13 +13,12 @@ export default function AdminNavbar() {
   const navigate = useNavigate();
   const session = getSession();
 
-const currentLocation = useLocation();
+
   const handleLogout = () => {
     logout();
     setSession(null);
     navigate("/admin-login");
   };
-const isActive = (path) => currentLocation.pathname === path;
 
   return (
     <div className="navbar">
@@ -33,7 +32,7 @@ const isActive = (path) => currentLocation.pathname === path;
       {/* RIGHT */}
       <div className="nav-right">
         {session?.user?.role === "admin" && (
-          <>
+<>
             <Link to="/admin-dashboard">
               <RiDashboardLine size={35} color="#C9A24D" />
             </Link>
