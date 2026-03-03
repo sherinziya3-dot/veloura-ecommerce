@@ -1,16 +1,15 @@
-// src/pages/admin/OrderManagement.jsx
+
 import React, { useEffect, useState } from "react";
 
 export default function OrderManagement() {
   const [orders, setOrders] = useState([]);
 
-  // Load orders from localStorage
+
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("Veloura_orders")) || [];
     setOrders(stored);
   }, []);
 
-  // Update order status
   const updateStatus = (id, status) => {
     const updated = orders.map(order =>
       order.id === id ? { ...order, status } : order

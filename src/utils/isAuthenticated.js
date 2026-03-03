@@ -10,7 +10,7 @@ export function logout() {
   localStorage.removeItem("session");
    localStorage.removeItem("cart_guest");
      localStorage.removeItem("wishlist");
-  // optional: clear cart and wishlist
+ 
   const session = getSession();
   if (session?.user?.id) {
     localStorage.removeItem(`cart_${session.user.id}`);

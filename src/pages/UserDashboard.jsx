@@ -34,7 +34,6 @@ export default function UserDashboard() {
     <div style={styles.container}>
       <h1 style={styles.title}>✨ Your Veloura Dashboard ✨</h1>
 
-      {/* TOP BUTTONS */}
       <div style={styles.topButtons}>
         <button
           style={styles.topBtn}

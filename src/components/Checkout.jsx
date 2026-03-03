@@ -38,7 +38,7 @@ export default function Checkout() {
       JSON.stringify([...existing, newOrder])
     );
 
-    clearCart(); // ✅ only cart clear
+    clearCart(); 
     alert("Order placed successfully!");
     navigate("/orders");
   };

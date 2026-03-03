@@ -34,7 +34,7 @@ export default function App() {
     <UserProvider>
       <CartProvider>
         <WishlistProvider>
-          {/* Render proper navbar */}
+        
           {isAdminRoute ? <AdminNavbar /> : <UserNavbar onSearch={setSearchQuery} />}
 
           <Routes>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./admin.css";
+import productsData from "../../data/products";
 
 export default function ProductManagement() {
   const [products, setProducts] = useState([]);
@@ -11,24 +12,16 @@ export default function ProductManagement() {
   });
   const [editId, setEditId] = useState(null);
 
-  // 🔹 FETCH PRODUCTS (SAME AS USER SIDE)
+  
   useEffect(() => {
-    fetch("http://localhost:5000/products")
-      .then(res => res.json())
-      .then(data => setProducts(data));
+    setProducts(productsData);
   }, []);
-
-  const refreshProducts = () => {
-    fetch("http://localhost:5000/products")
-      .then(res => res.json())
-      .then(data => setProducts(data));
-  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 🔹 ADD / UPDATE PRODUCT
+  // 🔹 ADD / UPDATE PRODUCT (in-memory only)
   const handleAddOrUpdate = () => {
     if (!form.name || !form.price) {
       alert("All fields required");
@@ -36,30 +29,15 @@ export default function ProductManagement() {
     }
 
     if (editId) {
-      fetch(`http://localhost:5000/products/${editId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: editId,
-          ...form,
-          price: Number(form.price),
-          active: true,
-        }),
-      }).then(() => {
-        refreshProducts();
-        setEditId(null);
-      });
+  
+      setProducts(products.map(p => p.id === editId ? { ...p, ...form, price: Number(form.price) } : p));
+      setEditId(null);
     } else {
-      fetch("http://localhost:5000/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: Date.now(),
-          ...form,
-          price: Number(form.price),
-          active: true, // 🔥 IMPORTANT
-        }),
-      }).then(refreshProducts);
+      // add new product
+      setProducts([
+        ...products,
+        { id: Date.now(), ...form, price: Number(form.price), active: true }
+      ]);
     }
 
     setForm({ name: "", price: "", category: "", image: "" });
@@ -70,13 +48,8 @@ export default function ProductManagement() {
     setEditId(product.id);
   };
 
-  // 🔹 ENABLE / DISABLE (SOFT DELETE)
   const toggleStatus = (product) => {
-    fetch(`http://localhost:5000/products/${product.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ active: !product.active }),
-    }).then(refreshProducts);
+    setProducts(products.map(p => p.id === product.id ? { ...p, active: !p.active } : p));
   };
 
   return (
@@ -116,6 +89,7 @@ export default function ProductManagement() {
     </div>
   );
 }
+
 const styles = {
   page: { padding: "40px", background: "#f6efe7", minHeight: "100vh" },
   title: { fontSize: "30px", color: "#6a4a3c", marginBottom: "25px" },

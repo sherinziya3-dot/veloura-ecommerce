@@ -9,10 +9,10 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     logout();
-    navigate("/admin-login", { replace: true }); // prevents back navigation
+    navigate("/admin-login", { replace: true }); 
   };
 
-  // Prevent browser back after logout
+
   useEffect(() => {
     window.history.pushState(null, "", window.location.href);
     const handlePop = () => {

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import productsData from "../data/products"; 
-
 export default function ProductList() {
   
   const { addToCart } = useCart();

@@ -1,11 +1,11 @@
-/* FULL LOGIN PAGE BACKGROUND */
+
 .login-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  /* Luxury mixed gradient */
+
   background:
     linear-gradient(
       180deg,
@@ -19,7 +19,7 @@
   overflow: hidden;
 }
 
-/* Bottom luxury shadow layer */
+
 .login-page::after {
   content: "";
   position: absolute;
@@ -37,7 +37,7 @@
   pointer-events: none;
 }
 
-/* Login Card – keep your old style */
+
 .login-card {
   background: #fff7ed;
   border-radius: 22px;

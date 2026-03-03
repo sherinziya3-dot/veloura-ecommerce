@@ -16,7 +16,7 @@ export default function AdminEditProduct() {
     active: true,
   });
 
-  /* ================= LOAD PRODUCT ================= */
+
 
   useEffect(() => {
     const products =
@@ -35,11 +35,10 @@ export default function AdminEditProduct() {
     setForm({
       ...product,
       price: Number(product.price),
-      active: product.active !== false, // ✅ safety
+      active: product.active !== false, 
     });
   }, [id, navigate]);
 
-  /* ================= SAVE ================= */
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,7 +63,7 @@ export default function AdminEditProduct() {
             ...p,
             ...form,
             id: Number(id),
-            price: Number(form.price), // ✅ FIX
+            price: Number(form.price), 
           }
         : p
     );
