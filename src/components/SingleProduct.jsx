@@ -3,38 +3,34 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { isAuthenticated } from "../utils/isAuthenticated";
+import productsData from "../data/products";
 
 export default function SingleProduct() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [qty, setQty] = useState(1);
+  const navigate = useNavigate();
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
-  const navigate = useNavigate();
-  const[loading,setLoading]=useState(true);
-  const[error,setError]=useState("");
 
-useEffect(() => {
-    fetch(`http://localhost:5000/products/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Product not found");
-        return res.json();
-      })
-      .then((data) => {
-        setProduct(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Could not load product");
-        setLoading(false);
-      });
+  const [product, setProduct] = useState(null);
+  const [qty, setQty] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+ 
+  useEffect(() => {
+    const foundProduct = productsData.find(
+      (item) => item.id === Number(id)
+    );
+
+    if (foundProduct) {
+      setProduct(foundProduct);
+    } else {
+      setError("Product not found");
+    }
+
+    setLoading(false);
   }, [id]);
 
-  
-  const increase = () => setQty(qty + 1);
-  const decrease = () => {
-    if (qty > 1) setQty(qty - 1);
-  };
   const handleAddToCart = () => {
     if (!isAuthenticated()) {
       alert("Please login to add to cart");
@@ -66,7 +62,9 @@ useEffect(() => {
             type="number"
             min="1"
             value={qty}
-            onChange={(e) => setQty(Number(e.target.value))}
+            onChange={(e) =>
+              setQty(e.target.value < 1 ? 1 : Number(e.target.value))
+            }
             style={styles.qtyInput}
           />
         </div>
@@ -84,6 +82,7 @@ const styles = {
     display: "flex",
     gap: "40px",
     padding: "40px",
+    flexWrap: "wrap",
   },
   image: {
     width: "320px",
@@ -111,4 +110,3 @@ const styles = {
     cursor: "pointer",
   },
 };
- 
