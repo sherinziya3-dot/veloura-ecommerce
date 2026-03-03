@@ -2,8 +2,8 @@ const users = [
   {
     id: "1",
     name: "anew",
-    email: "anew@example.com",
-    password: "123456",
+    email: "veloura.demo@gmail.com",
+    password: "VelouraUser@2026",
     role: "user"
   },
   {
