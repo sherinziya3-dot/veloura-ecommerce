@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setSession } from "../utils/isAuthenticated";
-import adminsData from "../data/admins";
+import adminsData from "../data/admin";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
