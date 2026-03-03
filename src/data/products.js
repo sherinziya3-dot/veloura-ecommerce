@@ -1,0 +1,72 @@
+const products = [
+  {
+    id: "1",
+    name: "Estele Rhodium Plated Elegant Pendant",
+    price: 966,
+    mrp: 1288,
+    category: "Premium",
+    image: "/images/estal-rhodium.jpg",
+    description: "A timeless rhodium-plated pendant, perfect for daily elegance and sparkling confidence.",
+    active: true
+  },
+  {
+    id: "2",
+    name: "White & Orange Pearl Necklace",
+    price: 1124,
+    mrp: 1499,
+    category: "Premium",
+    image: "/images/white-orange.jpg",
+    description: "Elegant white and orange pearls woven together for a graceful statement necklace.",
+    active: true
+  },
+  {
+    id: "3",
+    name: "Gold Ganesh Crystal Pendant",
+    price: 899,
+    mrp: 1199,
+    category: "Spiritual",
+    image: "/images/gold-ganesh.jpg",
+    description: "A sacred Ganesh pendant with sparkling crystals, combining spirituality and style.",
+    active: true
+  },
+  {
+    id: "4",
+    name: "Gold Solitaire Pendant Set",
+    price: 1499,
+    mrp: 1999,
+    category: "Premium",
+    image: "/images/gold-solitaire.jpg",
+    description: "Luxury gold solitaire pendant set, perfect for special occasions or daily shimmer.",
+    active: true
+  },
+  {
+    id: "5",
+    name: "Silver Moonstone Drop Earrings",
+    price: 637,
+    mrp: 850,
+    category: "Casual",
+    image: "/images/silver.jpg",
+    description: "Delicate silver earrings featuring luminous moonstones for everyday charm.",
+    active: true
+  },
+  {
+    id: "6",
+    name: "Rose Gold Infinity Bracelet",
+    price: 974,
+    mrp: 1299,
+    category: "Premium",
+    image: "/images/rose-gold.jpg",
+    description: "Rose gold infinity bracelet symbolizing endless elegance and style.",
+    active: true
+  },
+  {
+    id: 1772116926685,
+    name: "Browse premium",
+    price: 800,
+    category: "casual",
+    image: "",
+    active: true
+  }
+];
+
+export default products;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-
+import productsData from "../data/products"; 
 
 export default function ProductList() {
   
@@ -9,15 +9,14 @@ export default function ProductList() {
   const { addToWishlist } = useWishlist();
 
   const [products, setProducts] = useState([]);
-  const[inputValue,setInputValue]=useState("");
+  const [inputValue, setInputValue] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [sort, setSort] = useState("");
-
+  
   useEffect(() => {
-    fetch("http://localhost:5000/products")
-      .then(res => res.json())
-      .then(data => setProducts(data.filter(p => p.active)));
+    const activeProducts = productsData.filter(p => p.active);
+    setProducts(activeProducts);
   }, []);
 
   const filteredProducts = products
@@ -49,20 +48,19 @@ export default function ProductList() {
           }}
         />
         <button
-  onClick={() => setSearch(inputValue)}
-  style={{
-    padding: "12px 22px",
-    borderRadius: "25px",
-    border: "none",
-    background: "linear-gradient(135deg, #9c4c26, #5a2f1b)",
-    color: "#fff",
-    fontWeight: 700,
-    cursor: "pointer",
-  }}
->
-  Search
-</button>
-
+          onClick={() => setSearch(inputValue)}
+          style={{
+            padding: "12px 22px",
+            borderRadius: "25px",
+            border: "none",
+            background: "linear-gradient(135deg, #9c4c26, #5a2f1b)",
+            color: "#fff",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          Search
+        </button>
 
         <select
           value={category}
@@ -117,7 +115,6 @@ export default function ProductList() {
 
             <h3>{product.name}</h3>
 
-            {/* 💎 PREMIUM PRICE BOX (ADDED) */}
             <div style={styles.priceBox}>
               {product.mrp && product.mrp > product.price && (
                 <div style={styles.mrp}>
@@ -168,7 +165,6 @@ export default function ProductList() {
   );
 }
 
-/* 💎 PREMIUM PRICE STYLES (ONLY ADDITION) */
 const styles = {
   priceBox: {
     margin: "10px auto",
@@ -200,4 +196,3 @@ const styles = {
     color: "#5a2f1b",
   },
 };
-  
