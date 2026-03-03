@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import productsData from "../data/products";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -13,9 +14,10 @@ export default function ProductDetails() {
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/products/${id}`)
-      .then(res => res.json())
-      .then(data => setProduct(data));
+    const foundProduct = productsData.find(
+      (p) => String(p.id) === String(id)
+    );
+    setProduct(foundProduct);
   }, [id]);
 
   if (!product) return <h3 style={{ textAlign: "center" }}>Loading...</h3>;
@@ -34,7 +36,6 @@ export default function ProductDetails() {
           <h2>{product.name}</h2>
           <p style={styles.desc}>{product.description}</p>
 
-          {/* PRICE BOX */}
           <div style={styles.priceBox}>
             {product.mrp && (
               <span style={styles.mrp}>₹{product.mrp}</span>
@@ -45,14 +46,12 @@ export default function ProductDetails() {
             )}
           </div>
 
-          {/* QUANTITY */}
           <div style={styles.qty}>
             <button onClick={() => setQty(qty > 1 ? qty - 1 : 1)}>-</button>
             <span>{qty}</span>
             <button onClick={() => setQty(qty + 1)}>+</button>
           </div>
 
-          {/* ACTIONS */}
           <div style={styles.actions}>
             <button
               style={styles.cartBtn}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setSession } from "../utils/isAuthenticated";
+import usersData from "../data/users";
 
 export default function UserLogin() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function UserLogin() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -22,29 +23,28 @@ export default function UserLogin() {
     }
 
     try {
-      // fetch users from JSON server
-      const res = await fetch(`http://localhost:5000/users?email=${form.email}`);
-      const data = await res.json();
+      const user = usersData.find(
+        (u) => u.email === form.email
+      );
 
-      if (data.length === 0) {
+      if (!user) {
         alert("User not found");
         setLoading(false);
         return;
       }
 
-      const user = data[0];
       if (user.password === form.password) {
-        // ✅ login success
-        setSession({ user: { email: user.email, role: "user", id: user.id } });
+        setSession({
+          user: { email: user.email, role: "user", id: user.id },
+        });
         setLoading(false);
-        navigate("/"); // user home
+        navigate("/");
       } else {
         alert("Incorrect password");
         setLoading(false);
       }
     } catch (err) {
-      console.error(err);
-      alert("Server error");
+      alert("Error occurred");
       setLoading(false);
     }
   };
@@ -63,6 +63,7 @@ export default function UserLogin() {
             <input
               type="email"
               name="email"
+              placeholder="Enter your email"
               value={form.email}
               onChange={handleChange}
               style={styles.input}
@@ -75,6 +76,7 @@ export default function UserLogin() {
             <input
               type="password"
               name="password"
+              placeholder="Enter your password"
               value={form.password}
               onChange={handleChange}
               style={styles.input}

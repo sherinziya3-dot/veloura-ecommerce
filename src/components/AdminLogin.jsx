@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setSession } from "../utils/isAuthenticated";
+import adminsData from "../data/admins";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -11,32 +12,30 @@ export default function AdminLogin() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-    
-      const res = await fetch(
-        `http://localhost:5000/admins?username=${form.username}&password=${form.password}`
+      const admin = adminsData.find(
+        (a) =>
+          a.username === form.username &&
+          a.password === form.password
       );
-      const data = await res.json();
 
-      if (data.length > 0) {
-        // ✅ Admin authenticated
+      if (admin) {
         setSession({
-          user: { username: data[0].username, role: "admin" },
+          user: { username: admin.username, role: "admin" },
         });
-        navigate("/admin-dashboard", { replace: true }); // Prevent back navigation
+        navigate("/admin-dashboard", { replace: true });
       } else {
         alert("Invalid Admin Credentials");
       }
     } catch (err) {
-      alert("Server error");
+      alert("Error occurred");
     } finally {
       setLoading(false);
     }
-    
   };
 
   return (
@@ -53,9 +52,11 @@ export default function AdminLogin() {
             <input
               type="text"
               name="username"
+               placeholder="Enter your username"
               value={form.username}
               onChange={handleChange}
               style={styles.input}
+             
               required
             />
           </div>
@@ -65,6 +66,7 @@ export default function AdminLogin() {
             <input
               type="password"
               name="password"
+              placeholder="Enter your Password"
               value={form.password}
               onChange={handleChange}
               style={styles.input}
@@ -75,9 +77,7 @@ export default function AdminLogin() {
           <button style={styles.button} onClick={handleSubmit}>
             {loading ? "Checking..." : "Login as Admin"}
           </button>
-          
         </div>
-        
       </div>
     </div>
   );
@@ -89,7 +89,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "linear-gradient(135deg, #f6efe7, #e0d4c3)", // Dual-tone premium gradient
+    background: "linear-gradient(135deg, #f6efe7, #e0d4c3)",
     backgroundBlendMode: "overlay",
     backgroundAttachment: "fixed",
   },
@@ -98,7 +98,7 @@ const styles = {
     textAlign: "center",
     padding: "20px",
     borderRadius: "20px",
-    boxShadow: "0 12px 50px rgba(0,0,0,0.15)", // soft shadow for luxury feel
+    boxShadow: "0 12px 50px rgba(0,0,0,0.15)",
     backdropFilter: "blur(8px)",
     backgroundColor: "rgba(255, 255, 255, 0.85)",
   },

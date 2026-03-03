@@ -42,6 +42,7 @@ export default function Register() {
             <input
               type="text"
               name="name"
+              placeholder="Enter your Name"
               value={form.name}
               onChange={handleChange}
               style={styles.input}
@@ -54,6 +55,7 @@ export default function Register() {
             <input
               type="email"
               name="email"
+              placeholder="Enter your email"
               value={form.email}
               onChange={handleChange}
               style={styles.input}
@@ -66,6 +68,7 @@ export default function Register() {
             <input
               type="password"
               name="password"
+              placeholder="Enter your password"
               value={form.password}
               onChange={handleChange}
               style={styles.input}
